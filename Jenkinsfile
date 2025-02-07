@@ -20,10 +20,12 @@ pipeline {
 
         stage('Docker Build and Push') {
             steps {
-                sh "docker build -t $DOCKER_IMAGE ."
-                sh "docker login -u muhamedusama92 -p your-dockerhub-password"
-                sh "docker push $DOCKER_IMAGE"
-            }
+        sh "docker build -t $DOCKER_IMAGE ."
+        withCredentials([usernamePassword(credentialsId: 'DockerHub-cred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+            sh "docker login -u $DOCKER_USER -p $DOCKER_PASS"
+        }
+        sh "docker push $DOCKER_IMAGE"
+    }
         }
 
         stage('Deploy with Ansible') {
