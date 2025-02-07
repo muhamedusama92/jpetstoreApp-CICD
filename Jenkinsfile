@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/Omareldeeb7/Final_Project.git'
+                git 'https://github.com/muhamedusama92/jpetstoreApp-CICD.git'
             }
         }
 
