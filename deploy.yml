@@ -1,0 +1,24 @@
+- hosts: servers
+  become: true
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Start Docker Service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Remove existing container (if running)
+      shell: docker rm -f jpetstore-container || true
+
+    - name: Pull the latest image from Docker Hub
+      shell: docker pull muhamedusama92/jpetstore-app:latest
+
+    - name: Run the new container
+      shell: docker run -d -p 8081:8080 --name jpetstore-container your-dockerhub-username/jpetstore-app:latest
+
